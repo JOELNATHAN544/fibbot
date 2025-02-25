@@ -18,5 +18,5 @@
  
  # Run the executable
  #ENTRYPOINT ["/app/target/release/fibbot-test"]
- ENTRYPOINT ["/app/target/release/fibbot-test"]
+ ENTRYPOINT ["/app/target/release/fibbot"]
   
