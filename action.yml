@@ -1,4 +1,3 @@
-  GNU nano 6.2                         action                                   
 name: "My Rust Action"
 description: "A simple Rust action"
 inputs:
