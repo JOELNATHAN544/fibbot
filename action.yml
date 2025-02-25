@@ -1,6 +1,20 @@
-name: 'My Rust Action'
-description: 'A simple Rust action'
+  GNU nano 6.2                         action                                   
+name: "My Rust Action"
+description: "A simple Rust action"
+inputs:
+  enable_fib:
+    description: "Enable Fibonacci sequence generation"
+    required: false
+    default: "false"
+  max_threshold:
+    description: "Maximum threshold for Fibonacci sequence"
+    required: false
+    default: "100"
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - --enable-fib
+    - ${{ inputs.enable_fib }}
+    - --max-threshold
+    - ${{ inputs.max_threshold }}
