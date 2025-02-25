@@ -26,6 +26,5 @@ COPY --from=builder /app/target/release/fibbot .
 EXPOSE 8080
 
 # Command to run the binary
-CMD ["./fibbot
-"]
+CMD ["./fibbot"]
 
