@@ -1,6 +1,6 @@
 use std::env::{self, args};
 
-use clap::{builder::Str, Parser};
+/*use clap::{builder::Str, Parser};
 
 #[derive(Parser, Debug)]
 #[command(name = "my_rust_action")]
@@ -11,10 +11,10 @@ struct Cli {
 
     #[arg(long, default_value_t = 100)]
     max_threshhold: u32,
-}
+}*/
 
 fn main() {
-    let arg = Cli::parse();
+    //let arg = Cli::parse();
     let args: Vec<String> = env::args().collect();
     let enable_fib = &args[0];
     let max_threshhold = &args[1];
