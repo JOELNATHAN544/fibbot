@@ -7,4 +7,4 @@ COPY . .
 RUN cargo run
 
 
-#CMD ["./target/release/fibbot"]
+CMD ["./target/release/fibbot", "@0", "@1"]
