@@ -18,7 +18,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let enable_fib = &args[0];
     let max_threshhold = &args[1];
-    if args.len() != 2 {
+    if args.len() != 3 {
         eprintln!("Please enter two arguments <enable_fib> <max_threshhold>");
     } else {
         
