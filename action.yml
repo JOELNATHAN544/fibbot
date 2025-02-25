@@ -3,5 +3,4 @@ description: 'A simple Rust action'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  run: cargo build --verbose
-  run: cargo test --verbose
+  
