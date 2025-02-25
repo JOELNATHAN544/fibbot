@@ -4,6 +4,6 @@ WORKDIR /usr/src/fibbot
 
 COPY . .
 
-RUN cargo run 
+RUN cargo build --release
 
-CMD ["cargo", "run"]
+CMD ["./target/release/fibbot"]
