@@ -4,11 +4,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      
-    - name: Checkout-repository
-      uses: actions/checkout@v2
-    - name: Build and run action
-      id: run-action
-      run: |
-        docker build -t my_action .
-        docker run --rm my_action
+    - uses: actions/checkout@v2
+    - name: Run fibbot
+      uses: ./
