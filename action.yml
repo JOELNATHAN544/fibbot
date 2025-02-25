@@ -1,0 +1,8 @@
+name: 'My Rust Action'
+description: 'A simple Rust action'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - 'arg1'
+    - 'arg2'
