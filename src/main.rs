@@ -16,12 +16,11 @@ struct Cli {
 fn main() {
     //let arg = Cli::parse();
     let args: Vec<String> = env::args().collect();
-    let enable_fib = &args[1];
-    let max_threshhold = &args[2];
-    if args.len() != 3 {
+    if args.len() != 3{
         eprintln!("Please enter two arguments <enable_fib> <max_threshhold>");
     } else {
-        
+        let enable_fib = &args[1];
+        let max_threshhold = &args[2];
         println!("Verbose: {}", enable_fib);
         println!("Limit: {}", max_threshhold);
     }
