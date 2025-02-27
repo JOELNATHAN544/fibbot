@@ -1,4 +1,4 @@
-use std::env::{self};
+use std::env::{self, args};
 
 /*use clap::{builder::Str, Parser};
 
@@ -19,14 +19,14 @@ fn main() {
    
         //eprintln!("Please enter two arguments <enable_fib> <max_threshhold>");
    
-        let _enable_fib = &args[1];
-        let _max_threshhold = &args[2];
+        let enable_fib = &args[1];
+        let max_threshhold = &args[2];
 
-        if args.len() != 3 {
-            eprintln!("Please enter two arguments <enable_fib> <max_threshhold>");
-            std::process::exit(1);
-        }
-        // println!("Verbose: {}", enable_fib);
-        // println!("Limit: {}", max_threshhold);
+        // if args.len() != 3 {
+        //     eprintln!("Please enter two arguments <enable_fib> <max_threshhold>");
+        //     std::process::exit(1);
+        // }
+        println!("Verbose: {}", enable_fib);
+        println!("Limit: {}", max_threshhold);
     
 }
