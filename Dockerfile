@@ -21,4 +21,4 @@ COPY script.sh /script.sh
 RUN chmod +x /script.sh
 
 # Set the script to the script
-ENTRYPOINT ["/script.sh", "/app/target/release/fibbot"]
+ENTRYPOINT ["/script.sh"]

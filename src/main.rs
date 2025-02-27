@@ -1,32 +1,43 @@
-use std::env::{self, args};
-
-/*use clap::{builder::Str, Parser};
-
-#[derive(Parser, Debug)]
-#[command(name = "my_rust_action")]
-#[command(about = "A GitHub Action written in Rust", long_about = None)]
-struct Cli {
-    #[arg(long, default_value_t = false)]
-    enable_fib: bool,
-
-    #[arg(long, default_value_t = 100)]
-    max_threshhold: u32,
-}*/
+use std::env;
+use std::process;
 
 fn main() {
-    //let arg = Cli::parse();
     let args: Vec<String> = env::args().collect();
-   
-        //eprintln!("Please enter two arguments <enable_fib> <max_threshhold>");
-   
-        let enable_fib = &args[1];
-        let max_threshhold = &args[2];
 
-        // if args.len() != 3 {
-        //     eprintln!("Please enter two arguments <enable_fib> <max_threshhold>");
-        //     std::process::exit(1);
-        // }
-        println!("Verbose: {}", enable_fib);
-        println!("Limit: {}", max_threshhold);
-    
+    if args.len() != 3 {
+        eprintln!("Usage: <enable_fib> <max_threshhold>");
+        process::exit(1);
+    }
+
+    let enable_fib = &args[1];
+    let max_threshhold = &args[2];
+
+    // Validate enable_fib (should be "true" or "false")
+    let enable_fib = match enable_fib.parse::<bool>() {
+        Ok(value) => value,
+        Err(_) => {
+            eprintln!("Invalid value for enable_fib. Expected 'true' or 'false'.");
+            process::exit(1);
+        }
+    };
+
+    // Validate max_threshhold (should be a positive integer)
+    let max_threshhold = match max_threshhold.parse::<u32>() {
+        Ok(value) => value,
+        Err(_) => {
+            eprintln!("Invalid value for max_threshhold. Expected a positive integer.");
+            process::exit(1);
+        }
+    };
+
+    // Log the validated parameters
+    println!("Verbose: {}", enable_fib);
+    println!("Limit: {}", max_threshhold);
+
+    // Example: Perform some action based on the parameters
+    // if enable_fib {
+    //     println!("Fibonacci sequence enabled up to {}", max_threshhold);
+    // } else {
+    //     println!("Fibonacci sequence disabled");
+    // }
 }
