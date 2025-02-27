@@ -8,4 +8,4 @@ pub fn extract_numbers_from_string(input: &str) -> Vec<i32> {
     re.find_iter(input)
         .filter_map(|mat| mat.as_str().parse::<i32>().ok())
         .collect()
-}
+} 

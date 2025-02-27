@@ -1,5 +1,6 @@
 use std::env;
 use std::process;
+
 //use crate::regex;
 
 fn main() {
@@ -35,6 +36,10 @@ fn main() {
     let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
     let numbers = regex::extract_numbers_from_string(sample_string);
     println!("Extracted numbers: {:?}", numbers);
+    let n=100;
+    println!("Fibonacci({}) = {}", n, fib::fib_sequence(n));
+    //println!("Fibonacci sequence: {:?}", fib::fib_sequence(95));
 }
 
+mod fib;
 mod regex;
