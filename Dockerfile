@@ -10,12 +10,6 @@ COPY . .
 # Build the Rust project
 RUN cargo build --release
 
-# Debugging step: List the contents of the /app directory
-RUN ls -la /app
-
-# Debugging step: List the contents of the /target/release directory
-RUN ls -la /app/target/release
-
 # Copy the entrypoint script and make it executable
 COPY script.sh /script.sh
 RUN chmod +x /script.sh
