@@ -20,5 +20,5 @@ RUN ls -la /app/target/release
 COPY script.sh /script.sh
 RUN chmod +x /script.sh
 
-# Set the script to the script
-ENTRYPOINT ["/script.sh"]
+# Set the script to the entrypoint
+ENTRYPOINT ["/script.sh", "/app/target/release/fibbot"]
