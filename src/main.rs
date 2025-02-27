@@ -1,5 +1,6 @@
 use std::env;
 use std::process;
+//use crate::regex;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -12,7 +13,6 @@ fn main() {
     let enable_fib = &args[1];
     let max_threshhold = &args[2];
 
-    // Validate enable_fib (should be "true" or "false")
     let enable_fib = match enable_fib.parse::<bool>() {
         Ok(value) => value,
         Err(_) => {
@@ -21,7 +21,6 @@ fn main() {
         }
     };
 
-    // Validate max_threshhold (should be a positive integer)
     let max_threshhold = match max_threshhold.parse::<u32>() {
         Ok(value) => value,
         Err(_) => {
@@ -30,14 +29,12 @@ fn main() {
         }
     };
 
-    // Log the validated parameters
     println!("Verbose: {}", enable_fib);
     println!("Limit: {}", max_threshhold);
 
-    // Example: Perform some action based on the parameters
-    // if enable_fib {
-    //     println!("Fibonacci sequence enabled up to {}", max_threshhold);
-    // } else {
-    //     println!("Fibonacci sequence disabled");
-    // }
+    let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
+    let numbers = regex::extract_numbers_from_string(sample_string);
+    println!("Extracted numbers: {:?}", numbers);
 }
+
+mod regex;
