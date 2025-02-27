@@ -1,5 +1,6 @@
 use std::env;
 use std::process;
+use std::io;
 
 //use crate::regex;
 
@@ -33,10 +34,13 @@ fn main() {
     println!("Verbose: {}", enable_fib);
     println!("Limit: {}", max_threshhold);
 
-    let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
+    let sample_string = "This is a sample PR content with numbers 123,abc -456, and 789.";
     let numbers = regex::extract_numbers_from_string(sample_string);
     println!("Extracted numbers: {:?}", numbers);
-    let n=100;
+    println!("Enter number");
+    let mut n=String::new();
+    io::stdin().read_line(&mut n).expect("Failed to read line");
+    let n=n.trim().parse().unwrap();
     println!("Fibonacci({}) = {}", n, fib::fib_sequence(n));
     //println!("Fibonacci sequence: {:?}", fib::fib_sequence(95));
 }
