@@ -8,8 +8,7 @@ use std::process;
 //use crate::regex;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error >>{
-
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = env::args().collect();
 
     if args.len() != 3 {
@@ -42,34 +41,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error >>{
     let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
     let numbers = numbers::extract_numbers_from_string(sample_string);
     println!("Extracted numbers: {:?}", numbers);
-    for i in 0..numbers.len() {
-        // if i < 0 {
-        //     println!(
-        //         "{}. FIbonnacci of positive {} is {}",
-        //         i + 1,
-        //         numbers[i],
-        //         fib::fib_sequence(-numbers[i] as u64)
-        //     );
-        // }
-        println!(
-            "{}. FIbonnacci of {} is {}",
-            i + 1,
-            numbers[i],
-            fib::fib_sequence(numbers[i] as u64)
-        );
-    }
+
     let _n = 100;
     //println!("Fibonacci({}) = {}", n, fib::fib_sequence(n));
     //println!("Fibonacci sequence: {:?}", fib::fib_sequence(95));
 
     let pr = octocrab::instance()
-        .pulls("lele-maxwell", "fibbot-test")
+        .pulls("JOELNATHAN544", "fibbot")
         .list_files(1)
         .await?;
     println!("{:?}", pr);
     let path = &pr.items.first().unwrap().patch.clone().unwrap();
-    let numbers = numbers::extract_numbers_from_string(&path);
-    println!("{:?}", numbers);
+    let number = numbers::extract_numbers_from_string(&path);
+    println!("The numbers fron pull request are {:?}", number);
+    for i in 0..number.len() {
+        println!(
+            "{}. FIbonnacci of {} is {}",
+            i + 1,
+            number[i],
+            fib::fib_sequence(number[i] as u64)
+        );
+    }
     Ok(())
 }
 

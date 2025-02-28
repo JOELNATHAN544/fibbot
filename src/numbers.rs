@@ -31,8 +31,9 @@ pub fn extract_numbers_from_string(input: &str) -> Vec<i32> {
 
     // Check if there's a number left at the end of the string
     if !current_number.is_empty() {
+
         if let Ok(num) = current_number.parse::<i32>() {
-            numbers.push(num);
+            numbers.push(num)
         }
     }
 
