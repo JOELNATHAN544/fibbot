@@ -1,4 +1,7 @@
+use fib::fib_sequence;
+
 use crate::pull_request::PullRequest;
+use crate::comment::post_comment;
 // use octocrab::{
 //     models::{pulls::PullRequest, repos::Content, repos::DiffEntry},
 //     Octocrab, Page,
@@ -16,27 +19,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         process::exit(1);
     }
 
-    let enable_fib = &args[1];
-    let max_threshhold = &args[2];
+    let pr_number = &args[1].parse().expect("Invalid PR number");
+    let token = &args[2];
 
-    let enable_fib = match enable_fib.parse::<bool>() {
-        Ok(value) => value,
-        Err(_) => {
-            eprintln!("Invalid value for enable_fib. Expected 'true' or 'false'.");
-            process::exit(1);
-        }
-    };
+    // let enable_fib = match enable_fib.parse::<bool>() {
+    //     Ok(value) => value,
+    //     Err(_) => {
+    //         eprintln!("Invalid value for enable_fib. Expected 'true' or 'false'.");
+    //         process::exit(1);
+    //     }
+    // };
 
-    let max_threshhold = match max_threshhold.parse::<u32>() {
-        Ok(value) => value,
-        Err(_) => {
-            eprintln!("Invalid value for max_threshhold. Expected a positive integer.");
-            process::exit(1);
-        }
-    };
+    // let max_threshhold = match max_threshhold.parse::<u32>() {
+    //     Ok(value) => value,
+    //     Err(_) => {
+    //         eprintln!("Invalid value for max_threshhold. Expected a positive integer.");
+    //         process::exit(1);
+    //     }
+    // };
 
-    println!("Verbose: {}", enable_fib);
-    println!("Limit: {}", max_threshhold);
+    // println!("Verbose: {}", enable_fib);
+    // println!("Limit: {}", max_threshhold);
 
     let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
     let numbers = numbers::extract_numbers_from_string(sample_string);
@@ -61,6 +64,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             number[i],
             fib::fib_sequence(number[i] as u64)
         );
+    }
+    let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
+    let comment_body = fibonacci_results.iter()
+        .fold(String::from("### Fibonacci Computations:\n"), |mut acc, (num, result)| {
+            acc.push_str(&format!("- Fibonacci({}) = {}\n", num, result));
+            acc
+        });
+
+    // let fibonacci_results = numbers.iter().map(|&num| (num, fibonacci_iterative(num))).collect::<Vec<_>>();
+
+    // // let comment_body = fibonacci_results.iter()
+    // //     .fold(String::from("### Fibonacci Computations:\n"), |mut acc, (num, result)| {
+    // //         acc.push_str(&format!("- Fibonacci({}) = {}\n", num, result));
+    // //         acc
+    // //     });
+
+    if let Err(e) = post_comment(*pr_number, token, &comment_body).await {
+        eprintln!("Error posting comment: {}", e);
     }
     Ok(())
 }
