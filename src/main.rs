@@ -1,9 +1,15 @@
+use crate::pull_request::PullRequest;
+// use octocrab::{
+//     models::{pulls::PullRequest, repos::Content, repos::DiffEntry},
+//     Octocrab, Page,
+// };
 use std::env;
 use std::process;
-
 //use crate::regex;
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error >>{
+
     let args: Vec<String> = env::args().collect();
 
     if args.len() != 3 {
@@ -55,7 +61,25 @@ fn main() {
     let _n = 100;
     //println!("Fibonacci({}) = {}", n, fib::fib_sequence(n));
     //println!("Fibonacci sequence: {:?}", fib::fib_sequence(95));
+
+    let pr = octocrab::instance()
+        .pulls("lele-maxwell", "fibbot-test")
+        .list_files(1)
+        .await?;
+    println!("{:?}", pr);
+    let path = &pr.items.first().unwrap().patch.clone().unwrap();
+    let numbers = numbers::extract_numbers_from_string(&path);
+    println!("{:?}", numbers);
+    Ok(())
 }
 
+fn compute_results() -> String {
+    // Example computation: sum of two numbers
+    let result = 42 + 58;
+    format!("The computed result is: {}", result)
+}
+
+mod comment;
 mod fib;
 mod numbers;
+mod pull_request;
