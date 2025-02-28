@@ -34,12 +34,28 @@ fn main() {
     println!("Limit: {}", max_threshhold);
 
     let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
-    let numbers = regex::extract_numbers_from_string(sample_string);
+    let numbers = numbers::extract_numbers_from_string(sample_string);
     println!("Extracted numbers: {:?}", numbers);
-    let n=100;
-    println!("Fibonacci({}) = {}", n, fib::fib_sequence(n));
+    for i in 0..numbers.len() {
+        // if i < 0 {
+        //     println!(
+        //         "{}. FIbonnacci of positive {} is {}",
+        //         i + 1,
+        //         numbers[i],
+        //         fib::fib_sequence(-numbers[i] as u64)
+        //     );
+        // }
+        println!(
+            "{}. FIbonnacci of {} is {}",
+            i + 1,
+            numbers[i],
+            fib::fib_sequence(numbers[i] as u64)
+        );
+    }
+    let _n = 100;
+    //println!("Fibonacci({}) = {}", n, fib::fib_sequence(n));
     //println!("Fibonacci sequence: {:?}", fib::fib_sequence(95));
 }
 
 mod fib;
-mod regex;
+mod numbers;
