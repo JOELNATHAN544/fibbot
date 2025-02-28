@@ -63,7 +63,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error >>{
     //println!("Fibonacci sequence: {:?}", fib::fib_sequence(95));
 
     let pr = octocrab::instance()
-        .pulls("lele-maxwell", "fibbot-test")
+        .pulls("JOELNATHAN544", "fibbot")
         .list_files(1)
         .await?;
     println!("{:?}", pr);
