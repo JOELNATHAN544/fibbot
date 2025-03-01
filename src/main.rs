@@ -108,7 +108,7 @@ println!("The numbers from pull request are {:?}", number);
     //let fibonacci_results:Vec<i32, BigUint> = 2;
     let comment_body = fibonacci_results.iter()
         .fold(String::from("### Fibonacci Computations:\n"), |mut acc, (num, result)| {
-            acc.push_str(&format!("- Fibonacci({}) = {}\n", num, result));
+            acc.push_str(&format!("- Fibonacci({}) = {}\n", num, result)); 
             acc
         });
 
