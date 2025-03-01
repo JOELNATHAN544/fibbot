@@ -68,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn compute_results() -> String {
     // Example computation: sum of two numbers
     let result = 42 + 58;
-    format!("The  computed result is: {}", result)
+    format!("The computed result is: {}", result)
 }
 
 mod comment;
