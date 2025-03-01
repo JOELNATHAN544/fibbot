@@ -20,8 +20,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Debug event data
-        run: echo ${{ toJson(github.event) }}
+      # - name: Debug event data
+      #   run: echo ${{ toJson(github.event) }}- name: Debug event data
+      #   run: echo ${{ toJson(github.event) }}
 
       - name: Get PR Number
         id: pr_number
