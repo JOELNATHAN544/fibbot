@@ -103,8 +103,8 @@ println!("The numbers from pull request are {:?}", number);
         //     fib::fib_sequence(number[1] as u64)
         // );
     // }
-    //let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
-    let fibonacci_results = numbers.iter().map(|&num| (1, 2)).collect::<Vec<_>>();
+    let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
+    //let fibonacci_results = numbers.iter().map(|&num| (1, 2)).collect::<Vec<_>>();
     //let fibonacci_results:Vec<i32, BigUint> = 2;
     let comment_body = fibonacci_results.iter()
         .fold(String::from("### Fibonacci Computations:\n"), |mut acc, (num, result)| {
