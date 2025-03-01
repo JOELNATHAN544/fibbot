@@ -20,3 +20,4 @@ COPY script.sh /script.sh
 
 # Set the script to the entrypoint
 ENTRYPOINT ["/app/target/release/fibbot"]
+
