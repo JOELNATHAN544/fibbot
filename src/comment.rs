@@ -43,13 +43,15 @@
 // }
 
 use reqwest::Client;
-use std::error::Error;
+use std::{env, error::Error};
 
 pub async fn post_comment(pr_number: u32, token: &str, comment_body: &str) -> Result<(), Box<dyn Error>> {
+    let repo = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY not set");
+    let owner = env::var("GITHUB_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
     let client = Client::new();
     let url = format!(
         "https://api.github.com/repos/{}/{}/issues/{}/comments",
-        std::env::var("GITHUB_REPOSITORY_OWNER")?,   std::env::var("GITHUB_REPOSITORY")?, std::env::var("GITHUB_PR_NUMBER")?,
+        owner, repo, std::env::var("GITHUB_PR_NUMBER")?,
       
       
     );
