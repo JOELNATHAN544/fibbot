@@ -1,4 +1,5 @@
 use fib::fib_sequence;
+use num::BigUint;
 
 use crate::pull_request::PullRequest;
 use crate::comment::post_comment;
@@ -62,14 +63,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let number = numbers::extract_numbers_from_string(&path);
     println!("The numbers fron pull request are {:?}", number);
     // for i in 0..number.len() {
-        println!(
-            "{}. FIbonnacci of {} is {}",
-            1 + 1,
-            number[1],
-            fib::fib_sequence(number[1] as u64)
-        );
+        // println!(
+        //     "{}. FIbonnacci of {} is {}",
+        //     1 + 1,
+        //     number[1],
+        //     fib::fib_sequence(number[1] as u64)
+        // );
     // }
     let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
+    //let fibonacci_results:Vec<i32, BigUint> = 2;
     let comment_body = fibonacci_results.iter()
         .fold(String::from("### Fibonacci Computations:\n"), |mut acc, (num, result)| {
             acc.push_str(&format!("- Fibonacci({}) = {}\n", num, result));
