@@ -22,14 +22,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // }
 
     // let pr_number = env::var("PR_NUMBER").expect("GITHUB_EVENT_NUMBER not set");
+    
+    //let pr_number = pr_number.parse::<u32>().expect("GITHUB_EVENT_NUMBER is not a valid number");
+    let _repo = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY not set");
+
+    let _owner = env::var("GITHU_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
+    
+    let token= env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
+
     let pr_number: u32 = env::var("GITHUB_REF")
         .ok()
         .and_then(|ref_value| ref_value.split('/').nth(2)?.parse().ok())
         .context("Failed to parse PR number")?;
-    //let pr_number = pr_number.parse::<u32>().expect("GITHUB_EVENT_NUMBER is not a valid number");
-    let repo = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY not set");
-    let owner = env::var("GITHU_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
-    let token= env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
     let token= token.as_str();
 
     // let enable_fib = match enable_fib.parse::<bool>() {
