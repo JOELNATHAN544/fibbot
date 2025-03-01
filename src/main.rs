@@ -37,6 +37,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .parse()
         .context("Failed to parse PR number")?;
 
+   
     println!("PR Number: {}", pr_number);
 
     let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
@@ -108,10 +109,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .iter()
         .map(|&num| (num, fib_sequence(num as u64)))
         .collect::<Vec<_>>();
-    let fibonacci_results = numbers
-        .iter()
-        .map(|&num| (num, fib_sequence(num as u64)))
-        .collect::<Vec<_>>();
+    let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
     //let fibonacci_results:Vec<i32, BigUint> = 2;
     let comment_body = fibonacci_results.iter().fold(
         String::from("### Fibonacci Computations:\n"),
