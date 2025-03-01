@@ -1,9 +1,9 @@
+use anyhow::{Context, Result};
 use fib::fib_sequence;
 use num::BigUint;
-use anyhow::{Context, Result};
 
-use crate::pull_request::PullRequest;
 use crate::comment::post_comment;
+use crate::pull_request::PullRequest;
 // use octocrab::{
 //     models::{pulls::PullRequest, repos::Content, repos::DiffEntry},
 //     Octocrab, Page,
@@ -21,38 +21,40 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     process::exit(1);
     // }
     let owner_repo = env::var("GITHUB_REPOSITORY")
-    .context("GITHUB_REPOSITORY environment variable is not set")?;
-println!("GITHUB_REPOSITORY: {}", owner_repo);
+        .context("GITHUB_REPOSITORY environment variable is not set")?;
+    println!("GITHUB_REPOSITORY: {}", owner_repo);
+    println!("hello world");
 
-let parts: Vec<&str> = owner_repo.split('/').collect();
-if parts.len() != 2 {
-    eprintln!("GITHUB_REPOSITORY is not in the expected format (owner/repo)");
-    process::exit(1);
-}
-let owner = parts[0];
-let repo = parts[1];
+    let parts: Vec<&str> = owner_repo.split('/').collect();
+    if parts.len() != 2 {
+        eprintln!("GITHUB_REPOSITORY is not in the expected format (owner/repo)");
+        process::exit(1);
+    }
+    let owner = parts[0];
+    let repo = parts[1];
+    let pr_number: u32 = env::var("PR_NUMBER")
+        .context("PR_NUMBER environment variable is not set")?
+        .parse()
+        .context("Failed to parse PR number")?;
 
-let pr_number: u32 = env::var("GITHUB_REF")
-    .ok()
-    .and_then(|ref_value| ref_value.split('/').nth(2)?.parse().ok())
-    .context("Failed to parse PR number")?;
-println!("PR Number: {}", pr_number);
+   
+    println!("PR Number: {}", pr_number);
 
-let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
+    let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
 
-let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
-let numbers = numbers::extract_numbers_from_string(sample_string);
-println!("Extracted numbers: {:?}", numbers);
+    let sample_string = "This is a sample PR content with numbers 123, -456, and 789.";
+    let numbers = numbers::extract_numbers_from_string(sample_string);
+    println!("Extracted numbers: {:?}", numbers);
 
-let pr = octocrab::instance()
-    .pulls(owner, repo)
-    .list_files(pr_number.into())
-    .await?;
-println!("{:?}", pr);
+    let pr = octocrab::instance()
+        .pulls(owner, repo)
+        .list_files(pr_number.into())
+        .await?;
+    println!("{:?}", pr);
 
-let path = &pr.items.first().unwrap().patch.clone().unwrap();
-let number = numbers::extract_numbers_from_string(&path);
-println!("The numbers from pull request are {:?}", number);
+    let path = &pr.items.first().unwrap().patch.clone().unwrap();
+    let number = numbers::extract_numbers_from_string(&path);
+    println!("The numbers from pull request are {:?}", number);
 
     // let pr_number: u32 = env::var("GITHUB_REF")
     //     .ok()
@@ -96,21 +98,26 @@ println!("The numbers from pull request are {:?}", number);
     let number = numbers::extract_numbers_from_string(&path);
     println!("The numbers fron pull request are {:?}", number);
     // for i in 0..number.len() {
-        // println!(
-        //     "{}. FIbonnacci of {} is {}",
-        //     1 + 1,
-        //     number[1],
-        //     fib::fib_sequence(number[1] as u64)
-        // );
+    // println!(
+    //     "{}. FIbonnacci of {} is {}",
+    //     1 + 1,
+    //     number[1],
+    //     fib::fib_sequence(number[1] as u64)
+    // );
     // }
-    let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
+    let fibonacci_results = numbers
+        .iter()
+        .map(|&num| (num, fib_sequence(num as u64)))
+        .collect::<Vec<_>>();
     //let fibonacci_results = numbers.iter().map(|&num| (1, 2)).collect::<Vec<_>>();
     //let fibonacci_results:Vec<i32, BigUint> = 2;
-    let comment_body = fibonacci_results.iter()
-        .fold(String::from("### Fibonacci Computations:\n"), |mut acc, (num, result)| {
-            acc.push_str(&format!("- Fibonacci({}) = {}\n", num, result)); 
+    let comment_body = fibonacci_results.iter().fold(
+        String::from("### Fibonacci Computations:\n"),
+        |mut acc, (num, result)| {
+            acc.push_str(&format!("- Fibonacci({}) = {}\n", num, result));
             acc
-        });
+        },
+    );
 
     // let fibonacci_results = numbers.iter().map(|&num| (num, fibonacci_iterative(num))).collect::<Vec<_>>();
 
