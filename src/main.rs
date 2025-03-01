@@ -135,11 +135,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-// fn compute_results() -> String {
-//     // Example computation: sum of two numbers
-//     let result = 42 + 58;
-//     format!("The computed result is: {}", result)
-// }
+fn compute_results() -> String {
+    // Example computation: sum of two numbers
+    let result = 42 + 58;
+    format!("The computed result is: {}", result)
+}
 
 mod comment;
 mod fib;
