@@ -26,10 +26,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("hello world");
 
     let parts: Vec<&str> = owner_repo.split('/').collect();
-    if parts.len() != 2 {
-        eprintln!("GITHUB_REPOSITORY is not in the expected format (owner/repo)");
-        process::exit(1);
-    }
+    // if parts.len() != 2 {
+    //     eprintln!("GITHUB_REPOSITORY is not in the expected format (owner/repo)");
+    //     process::exit(1);
+    // }
     let owner = parts[0];
     let repo = parts[1];
     let pr_number: u32 = env::var("PR_NUMBER")
@@ -37,7 +37,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .parse()
         .context("Failed to parse PR number")?;
 
-   
     println!("PR Number: {}", pr_number);
 
     let token = env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
@@ -109,7 +108,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .iter()
         .map(|&num| (num, fib_sequence(num as u64)))
         .collect::<Vec<_>>();
-    let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
+    let fibonacci_results = numbers
+        .iter()
+        .map(|&num| (num, fib_sequence(num as u64)))
+        .collect::<Vec<_>>();
     //let fibonacci_results:Vec<i32, BigUint> = 2;
     let comment_body = fibonacci_results.iter().fold(
         String::from("### Fibonacci Computations:\n"),
@@ -133,11 +135,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn compute_results() -> String {
-    // Example computation: sum of two numbers
-    let result = 42 + 58;
-    format!("The computed result is: {}", result)
-}
+// fn compute_results() -> String {
+//     // Example computation: sum of two numbers
+//     let result = 42 + 58;
+//     format!("The computed result is: {}", result)
+// }
 
 mod comment;
 mod fib;
