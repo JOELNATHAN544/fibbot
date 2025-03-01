@@ -43,26 +43,37 @@
 // }
 
 use reqwest::Client;
-use std::env;
+use std::error::Error;
 
-pub async fn post_comment(pr_number: u32, token: &str, comment: &str) -> Result<(), reqwest::Error> {
-    let repo = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY not set");
-    let url = format!("https://api.github.com/repos/{}/issues/{}/comments", repo, pr_number);
-
+pub async fn post_comment(pr_number: u32, token: &str, comment_body: &str) -> Result<(), Box<dyn Error>> {
     let client = Client::new();
+    let url = format!(
+        "https://api.github.com/repos/{}/issues/{}/comments",
+        std::env::var("GITHUB_REPOSITORY")?, // Get repo name from environment
+        pr_number
+    );
+
+    // Debug: Print URL and token
+    println!("Posting comment to URL: {}", url);
+    println!("Using token: {}", token);
+
     let response = client
         .post(&url)
-        .header("Authorization", format!("Bearer {}", token))
-        .header("User-Agent", "FibBot")
-        .header("Accept", "application/vnd.github.full+json")
-        .json(&serde_json::json!({ "body": comment }))
+        .header("Authorization", format!("token {}", token))
+        .header("User-Agent", "fibbot")
+        .json(&serde_json::json!({
+            "body": comment_body
+        }))
         .send()
         .await?;
 
     if response.status().is_success() {
-        println!("✅ Comment posted successfully.");
+        println!("Comment posted successfully.");
     } else {
-        eprintln!("❌ Failed to post comment: {:?}", response.text().await?);
+        eprintln!("Failed to post comment: {}", response.text().await?);
     }
+
     Ok(())
+}
+
 }
