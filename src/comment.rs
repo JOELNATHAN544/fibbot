@@ -54,7 +54,7 @@ pub async fn post_comment(pr_number: u32, token: &str, comment_body: &str) -> Re
     );
 
     // Debug: Print URL and token
-    println!("Posting comment to URL: {}", url);
+    println!("Posting comment to URL: {} ", url);
     println!("Using token: {}", token);
 
     let response = client
