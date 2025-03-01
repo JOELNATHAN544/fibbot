@@ -14,12 +14,12 @@ use std::process;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = env::args().collect();
 
-    if args.len() != 3 {
-        eprintln!("Usage: <enable_fib> <max_threshhold>");
-        process::exit(1);
-    }
+    // if args.len() != 3 {
+    //     eprintln!("Usage: <enable_fib> <max_threshhold>");
+    //     process::exit(1);
+    // }
 
-    let pr_number = env::var("GITHUB_EVENT_NUMBER").expect("GITHUB_EVENT_NUMBER not set");
+    let pr_number = env::var("PR_NUMBER").expect("GITHUB_EVENT_NUMBER not set");
     let pr_number = pr_number.parse::<u32>().expect("GITHUB_EVENT_NUMBER is not a valid number");
     let repo = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY not set");
     let owner = env::var("GITHUB_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
