@@ -19,8 +19,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         process::exit(1);
     }
 
-    let pr_number = &args[1].parse().expect("Invalid PR number");
-    let token = &args[2];
+    let pr_number = env::var("GITHUB_EVENT_NUMBER").expect("GITHUB_EVENT_NUMBER not set");
+    let pr_number = pr_number.parse::<u32>().expect("GITHUB_EVENT_NUMBER is not a valid number");
+    let repo = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY not set");
+    let owner = env::var("GITHUB_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
+    let token= env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN not set");
+    let token= token.as_str();
 
     // let enable_fib = match enable_fib.parse::<bool>() {
     //     Ok(value) => value,
@@ -80,7 +84,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // //         acc
     // //     });
 
-    if let Err(e) = post_comment(*pr_number, token, &comment_body).await {
+    if let Err(e) = post_comment(pr_number, token, &comment_body).await {
         eprintln!("Error posting comment: {}", e);
     }
     Ok(())
