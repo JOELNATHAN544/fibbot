@@ -97,14 +97,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let path = &pr.items.first().unwrap().patch.clone().unwrap();
     let number = numbers::extract_numbers_from_string(&path);
     println!("The numbers fron pull request are {:?}", number);
-    // for i in 0..number.len() {
-    // println!(
-    //     "{}. FIbonnacci of {} is {}",
-    //     1 + 1,
-    //     number[1],
-    //     fib::fib_sequence(number[1] as u64)
-    // );
-    // }
+    for i in 0..number.len() {
+    println!(
+        "{}. FIbonnacci of {} is {}",
+        1 + 1,
+        number[1],
+        fib::fib_sequence(number[1] as u64)
+    );
+    }
     let fibonacci_results = numbers
         .iter()
         .map(|&num| (num, fib_sequence(num as u64)))
