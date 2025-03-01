@@ -61,14 +61,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let path = &pr.items.first().unwrap().patch.clone().unwrap();
     let number = numbers::extract_numbers_from_string(&path);
     println!("The numbers fron pull request are {:?}", number);
-    for i in 0..number.len() {
+    // for i in 0..number.len() {
         println!(
             "{}. FIbonnacci of {} is {}",
-            i + 1,
-            number[i],
-            fib::fib_sequence(number[i] as u64)
+            1 + 1,
+            number[1],
+            fib::fib_sequence(number[1] as u64)
         );
-    }
+    // }
     let fibonacci_results = numbers.iter().map(|&num| (num, fib_sequence(num as u64))).collect::<Vec<_>>();
     let comment_body = fibonacci_results.iter()
         .fold(String::from("### Fibonacci Computations:\n"), |mut acc, (num, result)| {
