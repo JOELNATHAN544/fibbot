@@ -1,13 +1,55 @@
 name: Integration Tests
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, edited, synchronize]
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Run fibbot
-      uses: ./
-      with:
-        enable_fib: "true"
-        max_threshold: "32"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Debug event data
+        run: echo ${{ toJson(github.event) }}
+
+      - name: Get PR Number
+        id: pr_number
+        run: |
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            echo "PR Number: ${{ github.event.pull_request.number }}"
+            echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          else
+            echo "PR number not found!"
+            exit 1
+          fi
+
+      - name: Debug PR Number
+        run: |
+          echo "PR_NUMBER: ${{ env.PR_NUMBER }}"
+
+      - name: Run fibbot
+        uses: ./
+        with:
+          enable_fib: true
+          max_threshold: '1000000'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+
+      - name: Debug Logs
+        if: ${{ always() }}
+        run: |
+          echo "Job status: ${{ job.status }}"
+          echo "PR Number: ${{ env.PR_NUMBER }}"
