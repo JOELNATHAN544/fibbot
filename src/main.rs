@@ -1,5 +1,6 @@
 use fib::fib_sequence;
 use num::BigUint;
+use anyhow::{Context, Result};
 
 use crate::pull_request::PullRequest;
 use crate::comment::post_comment;
@@ -20,7 +21,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     process::exit(1);
     // }
 
-    let pr_number = env::var("PR_NUMBER").expect("GITHUB_EVENT_NUMBER not set");
+    // let pr_number = env::var("PR_NUMBER").expect("GITHUB_EVENT_NUMBER not set");
+    let pr_number: u32 = env::var("GITHUB_REF")
+        .ok()
+        .and_then(|ref_value| ref_value.split('/').nth(2)?.parse().ok())
+        .context("Failed to parse PR number")?;
     //let pr_number = pr_number.parse::<u32>().expect("GITHUB_EVENT_NUMBER is not a valid number");
     let repo = env::var("GITHUB_REPOSITORY").expect("GITHUB_REPOSITORY not set");
     let owner = env::var("GITHU_REPOSITORY_OWNER").expect("GITHUB_REPOSITORY_OWNER not set");
@@ -87,7 +92,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // //         acc
     // //     });
 
-    if let Err(e) = post_comment(pr_number, token, &comment_body).await {
+    if let Err(e) = post_comment(pr_number.to_string(), token, &comment_body).await {
         eprintln!("Error posting comment: {}", e);
     }
     Ok(())
