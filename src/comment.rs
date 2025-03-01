@@ -48,9 +48,10 @@ use std::error::Error;
 pub async fn post_comment(pr_number: u32, token: &str, comment_body: &str) -> Result<(), Box<dyn Error>> {
     let client = Client::new();
     let url = format!(
-        "https://api.github.com/repos/{}/issues/{}/comments",
+        "https://api.github.com/repos/{}/{}/issues/{}/comments", std::env::var("GITHUB_REPOSITORY_OWNER")?,
         std::env::var("GITHUB_REPOSITORY")?, // Get repo name from environment
-        pr_number
+        pr_number // PR number
+         // Get repo owner from environment
     );
 
     // Debug: Print URL and token
